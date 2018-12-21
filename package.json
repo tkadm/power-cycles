@@ -1,0 +1,19 @@
+{
+  "name": "power-cycles",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo"
+  },
+  "keywords": [
+    "Excel"
+  ],
+  "author": "tkadm",
+  "license": "ISC",
+  "dependencies": {
+    "excel4node": "^1.7.0",
+    "rxjs": "^6.3.3"
+  },
+  "devDependencies": {}
+}
