@@ -6,7 +6,7 @@
             "items": {
                 "type":"object",
                 "properties": {
-                    "name":{
+                    "name":{                        
                         "type":"object",
                         "properties": {}
                     }
