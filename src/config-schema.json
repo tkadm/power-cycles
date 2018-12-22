@@ -1,16 +1,18 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema",
+    "title": "Power cycles info",
+    "type": "object",
     "properties": {
-        "users":{
-            "type":"array",
+        "users": {
+            "type": "array",
             "items": {
-                "type":"object",
-                "properties": {
-                    "name":{                        
-                        "type":"object",
-                        "properties": {}
+                "type": "object",
+                "patternProperties": {
+                    "^[а-яА-Яa-zA-Z0-9_-]+$": {
+                        "type": "boolean"
                     }
-                }
+                },
+                "additionalProperties": false
             }
         }
     }

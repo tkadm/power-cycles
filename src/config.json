@@ -1,4 +1,10 @@
 {
     "$schema": "./config-schema.json",
-    "users": []
+    "users": [
+        {
+            "daas":true,
+            "ts":true,
+            "Миша_Тихомиров":true
+        }
+    ]
 }
