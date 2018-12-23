@@ -1,10 +1,45 @@
 {
     "$schema": "./config-schema.json",
+    "exercises": [
+        {
+            "name": "ж",
+            "caption": "Жим штанги лежа"
+        }
+    ],
+    "algorithms": [
+        {
+            "name": "fixed+2.5",
+            "type": "linear",
+            "step_value_type": "absolute",
+            "value": 2.5
+        }
+    ],
     "users": [
         {
-            "daas":true,
-            "ts":true,
-            "Миша_Тихомиров":true
+            "name": "micle",
+            "caption": "Миша",
+            "body_weights": [
+                {
+                    "weight": 56,
+                    "date": "21.10.2017"
+                }
+            ],
+            "max_results": [
+                {
+                    "exercise": "ж",
+                    "value": 50,
+                    "reps": 5,
+                    "date": "15.03.2016"
+                }
+            ],
+            "cycles": [
+                {
+                    "type": "5x5",
+                    "begin_date": "31.12.2015",
+                    "weeks_length": 10,
+                    "prev_max_week_num": 8
+                }
+            ]
         }
     ]
 }
