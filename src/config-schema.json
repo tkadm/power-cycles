@@ -21,7 +21,11 @@
                         "description": "Название упражнения"
                     }
                 },
-                "additionalProperties": false
+                "additionalProperties": false,
+                "required": [
+                    "name",
+                    "caption"
+                ]
             },
             "description": "Список названий упражнений и их сокращений"
         },
@@ -54,7 +58,13 @@
                         "description": "Значение для вычисления шага"
                     }
                 },
-                "additionalProperties": false
+                "additionalProperties": false,
+                "required": [
+                    "name",
+                    "type",
+                    "step_value_type",
+                    "value"
+                ]
             },
             "description": "Массив алгоритмов расчет цикла"
         },
@@ -115,7 +125,13 @@
                                     "description": "Дата достижения результата"
                                 }
                             },
-                            "additionalProperties": false
+                            "additionalProperties": false,
+                            "required": [
+                                "exercise",
+                                "value",
+                                "reps",
+                                "date"
+                            ]
                         },
                         "description": "Максимальные результаты выполнения упражнений"
                     },
@@ -148,9 +164,17 @@
                         "description": "Циклы"
                     }
                 },
-                "additionalProperties": false
+                "additionalProperties": false,
+                "required": [
+                    "name",
+                    "max_results"
+                ]
             }
         }
     },
-    "additionalProperties": false
+    "additionalProperties": false,
+    "required": [
+        "algorithms",
+        "users"
+    ]
 }
