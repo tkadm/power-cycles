@@ -1,6 +1,7 @@
 module.exports.RoundGranularity = RoundGranularity;
 module.exports.WeightToText = WeightToText;
 module.exports.CalcWeight = CalcWeight;
+module.exports.CalcCycle = CalcCycle;
 
 module.exports.cnstGranularityShowWeight = cnstGranularityShowWeight;
 module.exports.cnstGranularityWeight = cnstGranularityWeight;
@@ -43,3 +44,13 @@ function CalcWeight(weight, sets) {
     return result;
 }
 
+function CalcCycle(input_weight, steps_count, inc_func) {
+    var result = [];
+    var i;
+    var w_weight = input_weight;
+    for (i = 1; i <= steps_count; i++) {
+        w_weight = inc_func(w_weight, i);
+        result.push(w_weight);
+    }
+    return result;
+}
