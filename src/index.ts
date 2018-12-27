@@ -11,5 +11,8 @@ var taga = [40, 41.875, 43.75, 45.625, 47.5, 49.375, 51, 25];
 var pric = [31.25, 33.125, 35, 36.875, 38.75, 40.625, 42.5];
 
 var result = zhim.map(value => utils.CalcExerciseSetsWeight(value, 5)).map(array => array.map(value => utils.WeightToText(value)));
-console.log(JSON.stringify(result));
-console.log(process.execPath);
+//console.log(JSON.stringify(result));
+
+
+let dt: Date = new Date(2015, 4, 30);
+console.log(JSON.stringify(utils.DateToString(dt)));

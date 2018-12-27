@@ -48,3 +48,8 @@ export function CalcCycle(input_weight: number, steps_count: number, inc_func: (
     }
     return result;
 }
+
+export function DateToString(value: Date): string {
+    let nm: number = value.getMonth();
+    return ("0" + value.getDate()).slice(-2) + "." + ("0" + (1 + value.getMonth())).slice(-2) + "." + value.getFullYear();
+}
