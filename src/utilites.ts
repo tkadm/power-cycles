@@ -15,8 +15,12 @@ function NumToStr(value: number): string {
         return result.slice(0, res) + "," + (result + "00").slice(res + 1, res + 3);
 }
 
-export function WeightToText(value: number): string {
-    var result = value / cnstGranularityWeight;
+export function WeightToText(value: number, make_rounded: boolean = false): string {
+    let result: number;
+    if (make_rounded)
+        result = RoundGranularity(value) / cnstGranularityWeight;
+    else
+        result = value / cnstGranularityWeight;
     if ((result ^ 0) === result) {
         if (result % 2 == 0)
             return NumToStr(value); else
@@ -24,7 +28,7 @@ export function WeightToText(value: number): string {
     } else return NumToStr(value) + "?";
 }
 
-export function CalcWeight(weight: number, sets: number): Array<number> {
+export function CalcExerciseSetsWeight(weight: number, sets: number): Array<number> {
     let w_weight_left: number = weight * sets;
     let result: Array<number> = [];
     let i: number;
@@ -38,10 +42,9 @@ export function CalcWeight(weight: number, sets: number): Array<number> {
 export function CalcCycle(input_weight: number, steps_count: number, inc_func: (weight: number, counter: number) => number): Array<number> {
     let result: Array<number> = [];
     let i: number;
-    let w_weight: number = input_weight;
-    for (i = 1; i <= steps_count; i++) {
-        w_weight = inc_func(w_weight, i);
-        result.push(w_weight);
+    for (i = 0; i < steps_count; i++) {
+        if (i == 0) result.push(input_weight);
+        else result.push(inc_func(result[i - 1], i));
     }
     return result;
 }
