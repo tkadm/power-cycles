@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo"
+    "test": "tsc src\\index.ts",
+    "build": "tsc "
   },
   "keywords": [
     "Excel"
@@ -15,5 +16,8 @@
     "excel4node": "^1.7.0",
     "rxjs": "^6.3.3"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/node": "^10.12.18",
+    "typescript": "^3.2.2"
+  }
 }
