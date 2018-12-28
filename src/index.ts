@@ -1,9 +1,14 @@
-import * as fs from 'fs';
-import * as utils from './utilites';
+import * as fs from "fs";
+import * as utils from "./utilites";
 
+console.log(process.env.PWD);
+console.log(process.execPath);
+console.log(__dirname);
+console.log(__filename);
 
-//var file = fs.readFileSync(__dirname + "/config.json", 'utf8');//fs.openSync(__dirname + "/config.json", "r+");
-//console.log(file);
+let file = fs.readFileSync(__dirname + "/../src/config.json", 'utf8');//fs.openSync(__dirname + "/config.json", "r+");
+
+console.log(file);
 //console.log(JSON.parse(file));
 
 var zhim = [26.25, 28.125, 30, 31.875, 33.75, 35.625, 37.5];

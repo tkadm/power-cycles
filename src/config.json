@@ -1,29 +1,21 @@
 {
     "$schema": "./config-schema.json",
-    "exercises": [
-        {
-            "name": "ж",
-            "caption": "Жим штанги лежа"
-        }
-    ],
-    "algorithms": [
-        {
-            "name": "fixed+2.5",
+    "exercises": {
+        "жим_": "some caption"
+    },
+    "algorithms": {
+        "fixed+2.5": {
             "type": "linear",
             "step_value_type": "absolute",
             "value": 2.5
         }
-    ],
-    "users": [
-        {
-            "name": "micle",
+    },
+    "users": {
+        "micle": {
             "caption": "Миша",
-            "body_weights": [
-                {
-                    "weight": 56,
-                    "date": "21.10.2017"
-                }
-            ],
+            "body_weights": {
+                "01.12.2019": 56
+            },
             "max_results": [
                 {
                     "exercise": "ж",
@@ -34,12 +26,12 @@
             ],
             "cycles": [
                 {
-                    "type": "5x5",
+                    "name": "5x5",
                     "begin_date": "31.12.2015",
                     "weeks_length": 10,
                     "prev_max_week_num": 8
                 }
             ]
         }
-    ]
+    }
 }

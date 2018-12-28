@@ -7,169 +7,140 @@
             "type": "string"
         },
         "exercises": {
-            "type": "array",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "type": "string",
-                        "pattern": "^[а-яА-Яa-zA-Z_]+[а-яА-Яa-zA-Z0-9_]*",
-                        "description": "Краткое уникальное условное имя упражнения"
-                    },
-                    "caption": {
-                        "type": "string",
-                        "description": "Название упражнения"
-                    }
-                },
-                "additionalProperties": false,
-                "required": [
-                    "name",
-                    "caption"
-                ]
+            "type": "object",
+            "patternProperties": {
+                "^[а-яА-Яa-zA-Z0-9_-]+$": {
+                    "type": "string"
+                }
             },
+            "additionalProperties": false,
             "description": "Список названий упражнений и их сокращений"
         },
         "algorithms": {
-            "type": "array",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "type": "string",
-                        "description": "Уникальное имя алгоритма"
+            "type": "object",
+            "patternProperties": {
+                "^\\w+$": {
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "linear"
+                            ],
+                            "description": "Тип алгоритма (линейны)"
+                        },
+                        "step_value_type": {
+                            "type": "string",
+                            "enum": [
+                                "absolute",
+                                "procent"
+                            ],
+                            "description": "Каким образом вычисляется шаг увеличения веса"
+                        },
+                        "value": {
+                            "type": "number",
+                            "description": "Значение для вычисления шага"
+                        }
                     },
-                    "type": {
-                        "type": "string",
-                        "enum": [
-                            "linear"
-                        ],
-                        "description": "Тип алгоритма (линейны)"
-                    },
-                    "step_value_type": {
-                        "type": "string",
-                        "enum": [
-                            "absolute",
-                            "procent"
-                        ],
-                        "description": "Каким образом вычисляется шаг увеличения веса"
-                    },
-                    "value": {
-                        "type": "number",
-                        "description": "Значение для вычисления шага"
-                    }
-                },
-                "additionalProperties": false,
-                "required": [
-                    "name",
-                    "type",
-                    "step_value_type",
-                    "value"
-                ]
+                    "additionalProperties": false,
+                    "required": [
+                        "type",
+                        "step_value_type",
+                        "value"
+                    ]
+                }
             },
-            "description": "Массив алгоритмов расчет цикла"
+            "description": "Список алгоритмов расчет цикла"
         },
         "users": {
-            "type": "array",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "type": "string",
-                        "pattern": "^[а-яА-Яa-zA-Z_]+[а-яА-Яa-zA-Z0-9_]*",
-                        "description": "Краткое уникальное nick-name"
-                    },
-                    "caption": {
-                        "type": "string",
-                        "description": "Имя атлета"
-                    },
-                    "body_weights": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "weight": {
-                                    "type": "number",
-                                    "description": "Значение веса"
-                                },
-                                "date": {
-                                    "type": "string",
-                                    "pattern": "^(0?[1-9]|[12][0-9]|3[01])\\.(0?[1-9]|1[012])\\.((19|20)\\d\\d)",
-                                    "description": "Дата взвешивания"
-                                }
-                            },
-                            "description": "Вес атлета и дата взвешивания",
-                            "additionalProperties": false
+            "type": "object",
+            "patternProperties": {
+                "^\\w+$": {
+                    "type": "object",
+                    "properties": {
+                        "caption": {
+                            "type": "string",
+                            "description": "Имя атлета"
                         },
-                        "description": "Вес тела атлета"
-                    },
-                    "max_results": {
-                        "type": "array",
-                        "items": {
+                        "body_weights": {
                             "type": "object",
-                            "properties": {
-                                "exercise": {
-                                    "type": "string",
-                                    "description": "Условное имя упражнения"
-                                },
-                                "value": {
+                            "patternProperties": {
+                                "^(0?[1-9]|[12][0-9]|3[01])\\.(0?[1-9]|1[012])\\.((19|20)\\d\\d)": {
                                     "type": "number",
-                                    "description": "Значение в кг."
-                                },
-                                "reps": {
-                                    "type": "number",
-                                    "description": "Количество повторений"
-                                },
-                                "date": {
-                                    "type": "string",
-                                    "pattern": "^(0?[1-9]|[12][0-9]|3[01])\\.(0?[1-9]|1[012])\\.((19|20)\\d\\d)",
-                                    "description": "Дата достижения результата"
+                                    "description": "Вес в кг"
                                 }
                             },
                             "additionalProperties": false,
-                            "required": [
-                                "exercise",
-                                "value",
-                                "reps",
-                                "date"
-                            ]
+                            "description": "Вес тела атлета"
                         },
-                        "description": "Максимальные результаты выполнения упражнений"
-                    },
-                    "cycles": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "type": {
-                                    "type": "string",
-                                    "description": "Название типа цикла"
+                        "max_results": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "exercise": {
+                                        "type": "string",
+                                        "description": "Условное имя упражнения"
+                                    },
+                                    "value": {
+                                        "type": "number",
+                                        "description": "Значение в кг."
+                                    },
+                                    "reps": {
+                                        "type": "number",
+                                        "description": "Количество повторений"
+                                    },
+                                    "date": {
+                                        "type": "string",
+                                        "pattern": "^(0?[1-9]|[12][0-9]|3[01])\\.(0?[1-9]|1[012])\\.((19|20)\\d\\d)",
+                                        "description": "Дата достижения результата"
+                                    }
                                 },
-                                "begin_date": {
-                                    "type": "string",
-                                    "pattern": "^(0?[1-9]|[12][0-9]|3[01])\\.(0?[1-9]|1[012])\\.((19|20)\\d\\d)",
-                                    "description": "Дата начала цикла"
-                                },
-                                "weeks_length": {
-                                    "type": "number",
-                                    "description": "Длина цикла в неделях"
-                                },
-                                "prev_max_week_num": {
-                                    "type": "number",
-                                    "description": "Номер недели цикла выхода на пик силы предыдущего цикла"
-                                }
+                                "additionalProperties": false,
+                                "required": [
+                                    "exercise",
+                                    "value",
+                                    "reps",
+                                    "date"
+                                ]
                             },
-                            "additionalProperties": false,
-                            "description": "Силовой цикл"
+                            "description": "Максимальные результаты выполнения упражнений"
                         },
-                        "description": "Циклы"
-                    }
-                },
-                "additionalProperties": false,
-                "required": [
-                    "name",
-                    "max_results"
-                ]
-            }
+                        "cycles": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Название типа цикла"
+                                    },
+                                    "begin_date": {
+                                        "type": "string",
+                                        "pattern": "^(0?[1-9]|[12][0-9]|3[01])\\.(0?[1-9]|1[012])\\.((19|20)\\d\\d)",
+                                        "description": "Дата начала цикла"
+                                    },
+                                    "weeks_length": {
+                                        "type": "number",
+                                        "description": "Длина цикла в неделях"
+                                    },
+                                    "prev_max_week_num": {
+                                        "type": "number",
+                                        "description": "Номер недели цикла выхода на пик силы предыдущего цикла"
+                                    }
+                                },
+                                "additionalProperties": false,
+                                "description": "Силовой цикл"
+                            },
+                            "description": "Циклы"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "required": [
+                        "max_results"
+                    ]
+                }
+            },
+            "additionalProperties": false
         }
     },
     "additionalProperties": false,
