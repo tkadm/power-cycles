@@ -11,7 +11,7 @@ let root: IRoot = JSON.parse(file);
 
 
 let context: IContext = { weeks_length: 10, prev_max_week_num: 8, exercises_weights: { "Жим": 100 } };
-let res: string = JSON.stringify(utils.CalcCycleEx(context, (context, step, base_weight) => base_weight + step * 2.5));
+let res: string = JSON.stringify(utils.CalcCycleExes(context, (context, step, base_weight) => base_weight + step * 2.5));
 
 console.log(res);
 
