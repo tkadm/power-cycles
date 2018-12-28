@@ -1,3 +1,6 @@
+import { IContext, ICountedWeights } from "./input";
+import { ICycleSize } from "./root";
+
 export const cnstGranularityShowWeight = 2.5;
 export const cnstGranularityWeight = cnstGranularityShowWeight / 2;
 const cnstFracDigits = 2;
@@ -39,7 +42,24 @@ export function CalcExerciseSetsWeight(weight: number, sets: number): Array<numb
     return result;
 }
 
-export function CalcCycle(input_weight: number, steps_count: number, inc_func: (weight: number, counter: number) => number): Array<number> {
+export function CalcCycle(cycle: ICycleSize, calc: (step: number) => number): Array<number> {
+    let result: Array<number> = [];
+    if (cycle.prev_max_week_num > cycle.weeks_length) throw new Error("cycle.prev_max_week_num>cycle.weeks_length");
+    for (let i = 1; i <= cycle.weeks_length; i++) {
+        result.push(calc(i - cycle.prev_max_week_num));
+    }
+    return result;
+}
+
+export function CalcCycleEx(context: IContext, calc: (context: IContext, step: number, base_weight: number) => number): ICountedWeights {
+    let result: ICountedWeights = {};
+    for (let w_exe in context.exercises_weights) {
+        result[w_exe] = CalcCycle(context, (step) => calc(context, step, context.exercises_weights[w_exe]));
+    }
+    return result;
+}
+
+export function CalcCycleRC(input_weight: number, steps_count: number, inc_func: (weight: number, counter: number) => number): Array<number> {
     let result: Array<number> = [];
     let i: number;
     for (i = 0; i < steps_count; i++) {
