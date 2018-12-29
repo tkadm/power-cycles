@@ -1,7 +1,7 @@
-import { IContext, ICountedWeights } from "./input";
-import { ICycleSize } from "./root";
+import { IContext, ICalculatedWeights } from "./input";
+import { StepValueType } from './root';
 
-export type CountCycleRoutine = (context: IContext, step: number, base_weight: number) => number;
+export type CalcCycleRoutine = (step: number) => number;
 
 export const cnstGranularityShowWeight = 2.5;
 export const cnstGranularityWeight = cnstGranularityShowWeight / 2;
@@ -44,19 +44,12 @@ export function CalcExerciseSetsWeight(weight: number, sets: number): Array<numb
     return result;
 }
 
-function CalcCycleInternal(cycle: ICycleSize, calc: (step: number) => number): Array<number> {
-    let result: Array<number> = [];
-    if (cycle.prev_max_week_num > cycle.weeks_length) throw new Error("cycle.prev_max_week_num>cycle.weeks_length");
-    for (let i = 1; i <= cycle.weeks_length; i++) {
-        result.push(calc(i - cycle.prev_max_week_num));
-    }
-    return result;
-}
-
-export function CalcCycleExes(context: IContext, calc: CountCycleRoutine): ICountedWeights {
-    let result: ICountedWeights = {};
-    for (let w_exe in context.exercises_weights) {
-        result[w_exe] = CalcCycleInternal(context, (step) => calc(context, step, context.exercises_weights[w_exe]));
+export function CalcCycleExes(context: IContext): ICalculatedWeights {
+    let result: ICalculatedWeights = {};
+    for (let w_exe of context.exercises_data) {
+        result[w_exe.exercise] = [];
+        for (let i = 1; i <= context.weeks_length; i++)
+            result[w_exe.exercise].push(w_exe.routine(i - context.prev_max_week_num));
     }
     return result;
 }
@@ -64,4 +57,14 @@ export function CalcCycleExes(context: IContext, calc: CountCycleRoutine): ICoun
 export function DateToString(value: Date): string {
     let nm: number = value.getMonth();
     return ("0" + value.getDate()).slice(-2) + "." + ("0" + (1 + value.getMonth())).slice(-2) + "." + value.getFullYear();
+}
+
+export function GetCalcCycleRoutine(base_weight: number, SV_type: StepValueType, factor: number): CalcCycleRoutine {
+    let result: CalcCycleRoutine;
+    switch (SV_type) {
+        case StepValueType.absolute: result = step => base_weight + step * factor; break;
+        case StepValueType.procent: result = step => base_weight + step * base_weight * factor / 100; break;
+        default: throw new Error("Unknown Step-Value type!");
+    }
+    return result;
 }

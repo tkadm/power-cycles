@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as utils from "./utilites";
-import { IRoot } from './root';
-import { IContext } from "./input";
+import { IRoot, StepValueType } from './root';
+import { IContext, IExerсiseCalcParams } from "./input";
 
 
 
@@ -9,9 +9,9 @@ let file = fs.readFileSync(__dirname + "/../src/config.json", 'utf8');//fs.openS
 let root: IRoot = JSON.parse(file);
 //console.log(root);
 
-
-let context: IContext = { weeks_length: 10, prev_max_week_num: 8, exercises_weights: { "Жим": 100 } };
-let res: string = JSON.stringify(utils.CalcCycleExes(context, (context, step, base_weight) => base_weight + step * 2.5));
+let exe_data: Array<IExerсiseCalcParams> = [{ exercise: "Жим", routine: utils.GetCalcCycleRoutine(100, StepValueType.absolute, 2.5) }];
+let context: IContext = { weeks_length: 10, prev_max_week_num: 8, exercises_data: exe_data };
+let res: string = JSON.stringify(utils.CalcCycleExes(context));
 
 console.log(res);
 
