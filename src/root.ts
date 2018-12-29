@@ -12,7 +12,6 @@ export interface IExercises {
 export interface IAlgorithm {
     type: AlgorithmType;
     step_value_type: StepValueType;
-    value: number;
 }
 export interface IAlgorithms {
     [index: string]: IAlgorithm;
@@ -23,9 +22,18 @@ export interface IExerciseResult {
     reps: number;
     date: Date;
 }
+export interface ICycleExerciseData {
+    weight: number,
+    algorithm: string,
+    factor: number
+}
+export interface ICycleExercises {
+    [index: string]: ICycleExerciseData
+}
 export interface ICycle extends ICycleSize {
     name: string;
     begin_date: Date;
+    exercises: ICycleExercises
 }
 export interface IBodyWeights {
     [index: string]: number;
@@ -41,6 +49,6 @@ export interface IUsers {
 }
 export interface IRoot {
     exercises: IExercises;
-    algorithms: IAlgorithm;
+    algorithms: IAlgorithms;
     users: IUsers;
 }

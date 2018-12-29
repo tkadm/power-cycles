@@ -35,20 +35,16 @@
                                 "procent"
                             ],
                             "description": "Каким образом вычисляется шаг увеличения веса"
-                        },
-                        "value": {
-                            "type": "number",
-                            "description": "Значение для вычисления шага"
                         }
                     },
                     "additionalProperties": false,
                     "required": [
                         "type",
-                        "step_value_type",
-                        "value"
+                        "step_value_type"
                     ]
                 }
             },
+            "additionalProperties": false,
             "description": "Список алгоритмов расчет цикла"
         },
         "users": {
@@ -126,6 +122,37 @@
                                     "prev_max_week_num": {
                                         "type": "number",
                                         "description": "Номер недели цикла выхода на пик силы предыдущего цикла"
+                                    },
+                                    "exercises": {
+                                        "type": "object",
+                                        "patternProperties": {
+                                            "^[а-яА-Яa-zA-Z0-9_-]+$": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "weight": {
+                                                        "type": "number",
+                                                        "description": "Базовый вес упражнения"
+                                                    },
+                                                    "algorithm": {
+                                                        "type": "string",
+                                                        "pattern": "^\\w+$",
+                                                        "description": "Вид расчета (по абсолютному значению, по проценту от веса)"
+                                                    },
+                                                    "factor": {
+                                                        "type": "number",
+                                                        "description": "Параметр расчета"
+                                                    }
+                                                },
+                                                "additionalProperties": false,
+                                                "required": [
+                                                    "weight",
+                                                    "algorithm",
+                                                    "factor"
+                                                ]
+                                            }
+                                        },
+                                        "additionalProperties": false,
+                                        "description": "Список участвующих упражнений и описание алгоритма расчета цикла"
                                     }
                                 },
                                 "additionalProperties": false,

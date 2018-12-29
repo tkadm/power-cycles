@@ -3,13 +3,12 @@
     "exercises": {
         "жим": "Жим штанги лёжа",
         "тяга": "Тяга штанги в наклоне",
-        "присед_та":"Тяжелоатлетический присед"
+        "присед_та": "Тяжелоатлетический присед"
     },
     "algorithms": {
-        "fixed+2.5": {
+        "fixed2_5": {
             "type": "linear",
-            "step_value_type": "absolute",
-            "value": 2.5
+            "step_value_type": "absolute"
         }
     },
     "users": {
@@ -31,7 +30,19 @@
                     "name": "5x5",
                     "begin_date": "31.12.2015",
                     "weeks_length": 10,
-                    "prev_max_week_num": 8
+                    "prev_max_week_num": 8,
+                    "exercises": {
+                        "жим": {
+                            "weight": 100,
+                            "algorithm": "fixed2_5",
+                            "factor": 2.5
+                        },
+                        "тяга": {
+                            "weight": 105,
+                            "algorithm": "fixed2_5",
+                            "factor": 2.5
+                        }
+                    }
                 }
             ]
         }

@@ -7,9 +7,9 @@ import { IContext, IExerсiseCalcParams } from "./input";
 
 let file = fs.readFileSync(__dirname + "/../src/config.json", 'utf8');//fs.openSync(__dirname + "/config.json", "r+");
 let root: IRoot = JSON.parse(file);
-//console.log(root);
+console.log(root);
 
-let exe_data: Array<IExerсiseCalcParams> = [{ exercise: "Жим", routine: utils.GetCalcCycleRoutine(100, StepValueType.absolute, 2.5) }];
+let exe_data: Array<IExerсiseCalcParams> = [{ exercise: "Жим", routine: utils.GetCalcCycleRoutine(100) }];
 let context: IContext = { weeks_length: 10, prev_max_week_num: 8, exercises_data: exe_data };
 let res: string = JSON.stringify(utils.CalcCycleExes(context));
 

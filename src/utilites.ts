@@ -59,7 +59,7 @@ export function DateToString(value: Date): string {
     return ("0" + value.getDate()).slice(-2) + "." + ("0" + (1 + value.getMonth())).slice(-2) + "." + value.getFullYear();
 }
 
-export function GetCalcCycleRoutine(base_weight: number, SV_type: StepValueType, factor: number): CalcCycleRoutine {
+export function GetCalcCycleRoutine(base_weight: number, factor: number = 2.5, SV_type: StepValueType = StepValueType.absolute): CalcCycleRoutine {
     let result: CalcCycleRoutine;
     switch (SV_type) {
         case StepValueType.absolute: result = step => base_weight + step * factor; break;
