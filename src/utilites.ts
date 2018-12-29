@@ -1,6 +1,8 @@
 import { IContext, ICountedWeights } from "./input";
 import { ICycleSize } from "./root";
 
+export type CountCycleRoutine = (context: IContext, step: number, base_weight: number) => number;
+
 export const cnstGranularityShowWeight = 2.5;
 export const cnstGranularityWeight = cnstGranularityShowWeight / 2;
 const cnstFracDigits = 2;
@@ -51,7 +53,7 @@ function CalcCycleInternal(cycle: ICycleSize, calc: (step: number) => number): A
     return result;
 }
 
-export function CalcCycleExes(context: IContext, calc: (context: IContext, step: number, base_weight: number) => number): ICountedWeights {
+export function CalcCycleExes(context: IContext, calc: CountCycleRoutine): ICountedWeights {
     let result: ICountedWeights = {};
     for (let w_exe in context.exercises_weights) {
         result[w_exe] = CalcCycleInternal(context, (step) => calc(context, step, context.exercises_weights[w_exe]));
