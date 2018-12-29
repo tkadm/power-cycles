@@ -25,7 +25,7 @@
                     "date": "15.03.2016"
                 }
             ],
-            "cycles": [
+            "cycles_sources": [
                 {
                     "name": "5x5",
                     "begin_date": "31.12.2015",

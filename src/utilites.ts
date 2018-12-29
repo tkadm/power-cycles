@@ -1,6 +1,9 @@
 import { IContext, ICalculatedWeights } from "./input";
 import { StepValueType } from './root';
 
+export interface IDictionary<Type> {
+    [index: string]: Type
+}
 export type CalcCycleRoutine = (step: number) => number;
 
 export const cnstGranularityShowWeight = 2.5;

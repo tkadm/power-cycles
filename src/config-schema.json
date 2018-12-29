@@ -14,7 +14,7 @@
                 }
             },
             "additionalProperties": false,
-            "description": "Список названий упражнений и их сокращений"
+            "description": "Словарь упражнений (краткое наименование - полное наименование)"
         },
         "algorithms": {
             "type": "object",
@@ -45,7 +45,7 @@
                 }
             },
             "additionalProperties": false,
-            "description": "Список алгоритмов расчет цикла"
+            "description": "Словарь алгоритмов расчет цикла"
         },
         "users": {
             "type": "object",
@@ -66,7 +66,7 @@
                                 }
                             },
                             "additionalProperties": false,
-                            "description": "Вес тела атлета"
+                            "description": "Слоарь веса тела атлета по датам"
                         },
                         "max_results": {
                             "type": "array",
@@ -99,9 +99,9 @@
                                     "date"
                                 ]
                             },
-                            "description": "Максимальные результаты выполнения упражнений"
+                            "description": "Массив максимальных результатов выполнения упражнений"
                         },
-                        "cycles": {
+                        "cycles_sources": {
                             "type": "array",
                             "items": {
                                 "type": "object",
@@ -156,9 +156,9 @@
                                     }
                                 },
                                 "additionalProperties": false,
-                                "description": "Силовой цикл"
+                                "description": "Исходные данные для цикла"
                             },
-                            "description": "Циклы"
+                            "description": "Массив исходных данные для расчета циклов"
                         }
                     },
                     "additionalProperties": false,
@@ -167,7 +167,8 @@
                     ]
                 }
             },
-            "additionalProperties": false
+            "additionalProperties": false,
+            "description": "Словарь данных пользователей"
         }
     },
     "additionalProperties": false,
