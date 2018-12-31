@@ -1,0 +1,80 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema",
+    "properties": {
+        "$schema": {
+            "type": "string"
+        },
+        "exercises": {
+            "type": "object",
+            "patternProperties": {
+                "^\\w+$": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false
+        },
+        "cycles": {
+            "type": "object",
+            "patternProperties": {
+                "^\\w+$": {
+                    "$ref": "./cycle-main-schema.json"
+                }
+            },
+            "additionalProperties": false
+        },
+        "workout_templates": {
+            "type": "object",
+            "patternProperties": {
+                "^[\\w-]+$": {
+                    "properties": {
+                        "length_days": {
+                            "type": "number"
+                        },
+                        "workouts": {
+                            "type": "object",
+                            "patternProperties": {
+                                "^[\\w-]+$": {
+                                    "type": "object",
+                                    "properties": {
+                                        "caption": {
+                                            "type": "string"
+                                        },
+                                        "offset": {
+                                            "type": "number"
+                                        },
+                                        "exercise_cycles": {
+                                            "patternProperties": {
+                                                "^[\\w-]+$": {
+                                                    "type": "number"
+                                                }
+                                            },
+                                            "additionalProperties": false
+                                        }
+                                    },
+                                    "additionalProperties": false,
+                                    "required": [
+                                        "caption",
+                                        "offset",
+                                        "exercise_cycles"
+                                    ]
+                                }
+                            },
+                            "additionalProperties": false
+                        }
+                    },
+                    "additionalProperties": false,
+                    "required": [
+                        "length_days",
+                        "workouts"
+                    ]
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "cycles",
+        "workout_templates"
+    ]
+}

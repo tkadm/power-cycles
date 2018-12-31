@@ -1,0 +1,67 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema",
+    "properties": {
+        "length_steps": {
+            "type": "number"
+        },
+        "base_step": {
+            "type": "number"
+        },
+        "base_transform": {
+            "type": "object",
+            "properties": {
+                "relativity": {
+                    "type": "string",
+                    "enum": [
+                        "absolute",
+                        "procent"
+                    ]
+                },
+                "parameter": {
+                    "type": "number"
+                }
+            },
+            "additionalProperties": false,
+            "required": [
+                "relativity",
+                "parameter"
+            ]
+        },
+        "stage_size_transform": {
+            "type": "object",
+            "properties": {
+                "kind": {
+                    "type": "string",
+                    "enum": [
+                        "linear"
+                    ]
+                },
+                "relativity": {
+                    "type": "string",
+                    "enum": [
+                        "absolute",
+                        "procent"
+                    ]
+                },
+                "parameter": {
+                    "type": "number"
+                }
+            },
+            "additionalProperties": false,
+            "required": [
+                "kind",
+                "relativity",
+                "parameter"
+            ]
+        },
+        "nested": {
+            "$ref": "./cycle-nested-schema.json"
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "length_steps",
+        "base_step",
+        "stage_size_transform"
+    ]
+}

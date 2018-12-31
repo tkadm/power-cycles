@@ -1,4 +1,5 @@
 {
+    "$schema": "../json-schema/config-schema.json",
     "exercises": {},
     "cycles": {
         "standard": {
@@ -6,17 +7,17 @@
             "base_step": 8,
             "base_transform": {
                 "relativity": "procent",
-                "rate": 1
+                "parameter": 1
             },
             "stage_size_transform": {
                 "kind": "linear",
                 "relativity": "absolute",
-                "rate": 2.5
+                "parameter": 2.5
             },
             "nested": {
                 "base_transform": {
                     "relativity": "procent",
-                    "rate": 1
+                    "parameter": 1
                 }
             }
         }
