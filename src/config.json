@@ -1,0 +1,21 @@
+{
+    "exercises": {},
+    "cycles": {
+        "Standard": {}
+    },
+    "workout_templates": {
+        "A-template": {
+            "amount": 10,
+            "workouts": {
+                "Top": {
+                    "caption": "Верх",
+                    "offset": 0,
+                    "content": {
+                        "exeA": {},
+                        "exeB": {}
+                    }
+                }
+            }
+        }
+    }
+}
