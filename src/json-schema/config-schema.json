@@ -40,7 +40,8 @@
                                             "type": "string"
                                         },
                                         "offset": {
-                                            "type": "number"
+                                            "type": "number",
+                                            "description": "Смещение в днях относительно начала ступени цикла"
                                         },
                                         "exercise_cycles": {
                                             "patternProperties": {

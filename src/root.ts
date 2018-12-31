@@ -2,15 +2,15 @@ export interface IDictionary<Type> {
     [index: string]: Type
 }
 export enum CycleKinds { linear = "linear" }
-export enum CycleRelativities { absolute = "absolute", procent = "procent" }
+export enum KindRelativities { absolute = "absolute", procent = "procent" }
 
 export interface IBaseTransform {
-    relativity: CycleRelativities;
+    relativity: KindRelativities;
     parameter: number
 }
 export interface IStageSizeTransform {
     kind: CycleKinds;
-    relativity: CycleRelativities;
+    relativity: KindRelativities;
     parameter: number
 }
 export interface ICycle {
