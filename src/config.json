@@ -1,18 +1,46 @@
 {
     "exercises": {},
     "cycles": {
-        "Standard": {}
+        "standard": {
+            "length_steps": 10,
+            "base_step": 8,
+            "base_transform": {
+                "relativity": "procent",
+                "rate": 1
+            },
+            "stage_size_transform": {
+                "kind": "linear",
+                "relativity": "absolute",
+                "rate": 2.5
+            },
+            "nested": {
+                "base_transform": {
+                    "relativity": "procent",
+                    "rate": 1
+                }
+            }
+        }
     },
     "workout_templates": {
-        "A-template": {
-            "amount": 10,
+        "a-template": {
+            "length_days": 7,
             "workouts": {
                 "Top": {
                     "caption": "Верх",
                     "offset": 0,
-                    "content": {
-                        "exeA": {},
-                        "exeB": {}
+                    "exercise_cycles": {
+                        "exeA": 0,
+                        "exeB": 0,
+                        "exeC": 1
+                    }
+                },
+                "Bottom": {
+                    "caption": "Низ",
+                    "offset": 3,
+                    "exercise_cycles": {
+                        "exeA": 1,
+                        "exeB": 1,
+                        "exeC": 0
                     }
                 }
             }
