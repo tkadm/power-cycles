@@ -1,5 +1,8 @@
-console.log("hello!");
+import * as fs from "fs";
+import { IRoot } from "./root";
+import { Compute } from "./core";
 
-let fun:Function = new Function("a","b","console.log(a+b+'do it!')");
+let content = fs.readFileSync(__dirname + "/../src/Data/config.json", "utf8");
+let config: IRoot = JSON.parse(content);
 
-fun("One ", "Two ");
+Compute(config,"standard","a-template");
