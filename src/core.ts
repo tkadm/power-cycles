@@ -41,6 +41,7 @@ function NormilizeWorkout(workout: IWorkout, root: IRoot): void {
     if (!workout.transform) workout.transform = cycle.transform; else {
         if (!workout.transform.relativity) workout.transform.relativity = cycle.transform.relativity;
         if (!workout.transform.type) workout.transform.type = cycle.transform.type;
+        if (!workout.transform.value) workout.transform.value = cycle.transform.value;
     }
     if (!workout.nested) workout.nested = cycle.nested; else {
         cycle = cycle.nested;
@@ -52,6 +53,7 @@ function NormilizeWorkout(workout: IWorkout, root: IRoot): void {
             if (!workout_nested.transform) workout_nested.transform = cycle.transform; else {
                 if (!workout_nested.transform.relativity) workout_nested.transform.relativity = cycle.transform.relativity;
                 if (!workout_nested.transform.type) workout_nested.transform.type = cycle.transform.type;
+                if (!workout_nested.transform.value) workout_nested.transform.value = cycle.transform.value;
             }
             if (!workout_nested.nested) {
                 workout_nested.nested = cycle.nested;
@@ -62,6 +64,55 @@ function NormilizeWorkout(workout: IWorkout, root: IRoot): void {
         }
     }
 }
-function CreateMainTransformRoutine(transform:ITransform): MainTransformRoutine {
-
+function CreateMainTransformRoutine(transform: ITransform): MainTransformRoutine {
+    let result: MainTransformRoutine;
+    switch (transform.type) {
+        case TransformType.linear:
+            switch (transform.relativity) {
+                case TransformRelativity.absolute:
+                    result = (index, weight) => weight + index * transform.value
+                    break;
+                case TransformRelativity.procent:
+                    result = (index, weight) => weight + index * weight * transform.value / 100;
+                    break;
+            }
+            break;
+        default: throw "Неизвестный TransormType [" + transform.type + "]";
+    }
+    return result;
+}
+function CreateNestedTransformRoutine(transform: ITransform, nested_base_stage: NestedCycleBaseStage): NestedTransformRoutine {
+    let result: NestedTransformRoutine;
+    switch (transform.type) {
+        case TransformType.linear:
+            switch (transform.relativity) {
+                case TransformRelativity.absolute:
+                    switch (nested_base_stage) {
+                        case NestedCycleBaseStage.next:
+                            result = (index, prev_weight, next_weight) => next_weight + index * transform.value;
+                            break;
+                        case NestedCycleBaseStage.prev:
+                            result = (index, prev_weight, next_weight) => prev_weight + index * transform.value;
+                            break;
+                        default: throw "Неизвестное значение nested_base_stage [" + nested_base_stage + "]";
+                    }
+                    break;
+                case TransformRelativity.procent:
+                    switch (nested_base_stage) {
+                        case NestedCycleBaseStage.next:
+                            result = (index, prev_weight, next_weight) =>
+                                next_weight + index * next_weight * transform.value / 100;
+                            break;
+                        case NestedCycleBaseStage.prev:
+                            result = (index, prev_weight, next_weight) =>
+                                prev_weight + index * prev_weight * transform.value / 100;
+                            break;
+                        default: throw "Неизвестное значение nested_base_stage [" + nested_base_stage + "]";
+                            break;
+                    }
+                    break;
+                default: throw "Неизвестный TransormType [" + transform.type + "]";
+            }
+            return result;
+    }
 }

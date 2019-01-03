@@ -23,7 +23,7 @@
                 "transform": {
                     "type": "linear",
                     "relativity": "procent",
-                    "value": 80
+                    "value": -20
                 }
             }
         }

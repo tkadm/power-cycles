@@ -25,6 +25,7 @@ export interface ICycleNested extends ICycleCommon {
 export interface ITransform {
     type: TransformType;
     relativity: TransformRelativity;
+    value: number;
 }
 
 export interface IWorkout extends ICycleMain {
