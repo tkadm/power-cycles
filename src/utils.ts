@@ -5,5 +5,6 @@ export function DateCopy(source: Date, offset_days: number): Date {
 }
 
 export function DateTrunc(source: Date): Date {
-    return new Date(source.getFullYear(), source.getMonth(), source.getDate());
+    return new Date(source.getFullYear(), source.getMonth(),
+        source.getDate());
 }

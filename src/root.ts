@@ -8,7 +8,7 @@ export interface IRoot {
 
 interface ICycleCommon {
     stages: number,
-    transfomr: ITransform,
+    transform: ITransform,
     nested: ICycleNested
 }
 
@@ -17,7 +17,7 @@ export interface ICycleMain extends ICycleCommon {
     stage_period: number;
 }
 
-export interface ICycleNested {
+export interface ICycleNested extends ICycleCommon {
     stage_periods: Array<number>;
     base_stage: NestedCycleBaseStage;
 }
