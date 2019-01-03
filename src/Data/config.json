@@ -11,7 +11,8 @@
             "stage_period": 7,
             "transform": {
                 "type": "linear",
-                "relativity": "procent"
+                "relativity": "procent",
+                "value": 2.5
             },
             "nested": {
                 "stages": 1,
@@ -21,7 +22,8 @@
                 "base_stage": "prev",
                 "transform": {
                     "type": "linear",
-                    "relativity": "procent"
+                    "relativity": "procent",
+                    "value": 80
                 }
             }
         }
