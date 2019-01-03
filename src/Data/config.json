@@ -1,0 +1,61 @@
+{
+    "exercises": {
+        "жим": "Жим штанги лежа",
+        "тяга": "Тяга штанги в наклоне",
+        "присед": "Приседание со штангой на груди"
+    },
+    "cycles": {
+        "classic": {
+            "stages": 10,
+            "base_stage": 8,
+            "stage_period": 7,
+            "transform": {
+                "type": "linear",
+                "relativity": "procent"
+            },
+            "nested": {
+                "stages": 1,
+                "stage_periods": [
+                    3
+                ],
+                "base_stage": "prev",
+                "transform": {
+                    "type": "linear",
+                    "relativity": "procent"
+                }
+            }
+        }
+    },
+    "workouts": {
+        "classic": {
+            "A": {
+                "exercises": [
+                    "жим",
+                    "тяга"
+                ],
+                "cycle": "classic",
+                "stages": 10,
+                "base_stage": 8,
+                "stage_period": 7,
+                "begin_cycle_level": 0
+            },
+            "B": {
+                "exercises": [
+                    "присед"
+                ],
+                "start_date_offset": 0,
+                "cycle": "classic",
+                "stages": 10,
+                "base_stage": 8,
+                "stage_period": 7,
+                "begin_cycle_level": 1,
+                "nested": {
+                    "stage_periods": [
+                        4
+                    ],
+                    "base_stage": "next"
+                }
+            }
+        }
+    }
+}
