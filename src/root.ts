@@ -34,3 +34,4 @@ export interface IWorkout extends ICycleMain {
     begin_cycle_level: number;
     start_date_offset: 0;
 }
+

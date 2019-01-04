@@ -26,15 +26,37 @@ export function ComputeWorkouts(input: IInput, root: IRoot): Array<IWorkoutDayTa
     for (let wo_name in wo_dic) {
         let wo: IWorkout = wo_dic[wo_name];
         NormilizeWorkout(wo, root);
+        let funcMain: MainTransformRoutine = CreateMainTransformRoutine(wo.transform);
+        let funcsNested: Array<NestedTransformRoutine> = CreateTransformRoutineArray(wo.nested);
+        let currentDate: Date = input.date_begin;
+        if (wo.begin_cycle_level > 0) {
 
+        }
+        for (let i = 0; i < wo.stages; i++) {
+            for (let w_exe in wo.exercises) {
+                //result.push({});
+            }
+        }
     }
     return result;
 }
-
+function AssignNestedCycles(date: Date, prev_weight: number, next_weight: number, level: number, cycle:ICycleNested,
+    exercises: IDictionary<number>, funcs: Array<NestedTransformRoutine>, result: Array<IWorkoutDayTask>): void {
+    let weights: IDictionary<number> = {};
+    for (let i=0;i<cycle.stages;i++) {
+        for (let exe in exercises) {
+            if (level > funcs.length) throw "Выбранное значение уровня вложеного цикла не корректно!";
+            weights[exe] = funcs[level - 1](0,prev_weight,next_weight);//не 0!!!
+        }
+    }
+    result.push({ date: date, weights: weights });
+}
 function NormilizeWorkout(workout: IWorkout, root: IRoot): void {
     if (!workout.cycle) return;
     let cycle: ICycleMain | ICycleNested = root.cycles[workout.cycle];
     if (!cycle) throw "Ссылка на несуществующее в конфигурации имя цикла [" + workout.cycle + "]";
+    if (!workout.begin_cycle_level) workout.begin_cycle_level = 0;
+    if (!workout.start_date_offset) workout.start_date_offset = 0;
     if (!workout.base_stage) workout.base_stage = cycle.base_stage;
     if (!workout.stage_period) workout.stage_period = cycle.stage_period;
     if (!workout.stages) workout.stages = cycle.stages;
@@ -115,4 +137,12 @@ function CreateNestedTransformRoutine(transform: ITransform, nested_base_stage: 
             }
             return result;
     }
+}
+function CreateTransformRoutineArray(cycle: ICycleNested): Array<NestedTransformRoutine> {
+    let result: Array<NestedTransformRoutine> = [];
+    while (cycle) {
+        result.push(CreateNestedTransformRoutine(cycle.transform, cycle.base_stage));
+        cycle = cycle.nested;
+    }
+    return result;
 }
