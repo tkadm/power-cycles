@@ -7,7 +7,6 @@ export interface IRoot {
 }
 
 interface ICycleCommon {
-    stages: number,
     transform: ITransform,
     nested: ICycleNested
 }
@@ -17,6 +16,7 @@ export interface IStartCyclePoint {
     stage: number;
 }
 export interface ICycleMain extends ICycleCommon {
+    stages: number,
     base_stage: number;
     stage_period: number;
     start_cycle_point: IStartCyclePoint;

@@ -15,7 +15,6 @@
                 "value": 2.5
             },
             "nested": {
-                "stages": 1,
                 "stage_periods": [
                     3
                 ],

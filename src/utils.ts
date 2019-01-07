@@ -8,3 +8,7 @@ export function DateTrunc(source: Date): Date {
     return new Date(source.getFullYear(), source.getMonth(),
         source.getDate());
 }
+
+export function DaysBetween(earlier: Date, later: Date): number {
+    return (later.valueOf() - earlier.valueOf()) / (24 * 60 * 60 * 1000);
+}

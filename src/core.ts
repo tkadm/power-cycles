@@ -1,4 +1,6 @@
 import { IRoot, IWorkout, ICycleMain, ICycleNested, ITransform } from "./root";
+import { DateCopy, DateTrunc, DaysBetween } from "./utils";
+import { textSpanContainsTextSpan } from "typescript";
 
 export enum TransformType { linear = "linear" };
 export enum TransformRelativity { absolute = "absolute", procent = "procent" };
@@ -13,34 +15,90 @@ export type NestedTransformRoutine = (index: number, prev_weight: number, next_w
 export interface IInput {
     date_begin: Date;
     workout_set: string;
+    weights: IDictionary<number>;
 }
 
 // export interface IWorkoutDayTask {
 //     date: Date;
 //     weights: IDictionary<number>;
 // }
-interface IComputeContext {
-
+class ComputeContext {
+    private _workout: IWorkout;
+    can_assign: boolean;
+    routineMain: MainTransformRoutine;
+    routinesNested: Array<NestedTransformRoutine>;
+    current_date: Date;
+    get workout(): IWorkout {
+        return this._workout;
+    }
+    constructor() { this.can_assign = false; }
+    assign_workout(workout: IWorkout, root: IRoot) {
+        NormilizeWorkout(workout, root);
+        this._workout = workout;
+        this.routineMain = CreateMainTransformRoutine(this._workout.transform);
+        this.routinesNested = CreateTransformRoutineArray(this._workout.nested);
+    }
+    starts_with_main_cycle(): boolean {
+        return (!this._workout.start_cycle_point || this._workout.start_cycle_point.level == 0);
+    }
+}
+interface INestedContext {
+    level: number;
+    prev_weight?: number;
+    next_weight: number;
+    cycle: ICycleNested;
+    context: ComputeContext;
+    exercise: string;
 }
 export function ComputeWorkouts(input: IInput, root: IRoot): IDictionary<IDictionary<number>> {
     let result: IDictionary<IDictionary<number>> = {};
     let wo_dic: IDictionary<IWorkout> = root.workouts[input.workout_set];
     for (let wo_name in wo_dic) {
-        let wo: IWorkout = wo_dic[wo_name];
-        NormilizeWorkout(wo, root);
-        let funcMain: MainTransformRoutine = CreateMainTransformRoutine(wo.transform);
-        let funcsNested: Array<NestedTransformRoutine> = CreateTransformRoutineArray(wo.nested);
-        let currentDate: Date = input.date_begin;
-        for (let i = 0; i < wo.stages; i++) {
-            for (let w_exe in wo.exercises) {
+        let context: ComputeContext = new ComputeContext();
+        context.assign_workout(wo_dic[wo_name], root);
+        context.current_date = input.date_begin;
+        if (!context.starts_with_main_cycle()) {
+            for (let w_exe in context.workout.exercises) {
+                if (DaysBetween(AssignNestedCycles({
+                    exercise: w_exe,
+                    cycle: context.workout.nested, level: 1,
+                    prev_weight: null,
+                    next_weight: context.routineMain(-context.workout.base_stage, input.weights[w_exe]),
+                    context: context
+                }, result), context.current_date) > context.workout.stage_period)
+                    throw "Вложенный цикл длиннее внешнего";
+            }
+        }
+        for (let i = 0; i < context.workout.stages; i++) {
+            for (let w_exe in context.workout.exercises) {
                 //result.push({});
             }
         }
     }
     return result;
 }
-function AssignNestedCycles(context: IComputeContext): void {
-
+function AssignNestedCycles(context: INestedContext, result: IDictionary<IDictionary<number>>): Date {
+    if (!context.cycle) return;
+    let prev_weight: number = context.prev_weight;
+    let current_date: Date = DateCopy(context.context.current_date, 0);
+    for (let i = 0; i < context.cycle.stage_periods.length; i++) {
+        if (context.level == context.context.workout.start_cycle_point.level &&
+            i == context.context.workout.start_cycle_point.stage) context.context.can_assign = true;
+        current_date = DateCopy(current_date, context.cycle.stage_periods[i]);
+        prev_weight = context.context.routinesNested[context.level - 1](i, context.prev_weight, context.next_weight);
+        if (context.context.can_assign) {
+            if (!result[current_date.toLocaleDateString()]) result[current_date.toLocaleDateString()] = {};
+            result[current_date.toLocaleDateString()][context.exercise] = prev_weight;
+        }
+        AssignNestedCycles({
+            exercise: context.exercise,
+            context: context.context,
+            cycle: context.cycle.nested, level: context.level + 1,
+            prev_weight: prev_weight,
+            next_weight: context.context.routinesNested[context.level - 1](i + 1, context.prev_weight, context.next_weight)
+        }, result);
+    }
+    return current_date;
 }
 function NormilizeWorkout(workout: IWorkout, root: IRoot): void {
     if (!workout.cycle) return;
@@ -62,13 +120,13 @@ function NormilizeWorkout(workout: IWorkout, root: IRoot): void {
         if (!workout.start_cycle_point.stage)
             workout.start_cycle_point.stage = cycle.start_cycle_point.stage;
     }
+    if (!workout.start_cycle_point) workout.start_cycle_point = { level: 0, days_offset: 0, stage: 0 };
     if (!workout.nested) workout.nested = cycle.nested; else {
         cycle = cycle.nested;
         let workout_nested: ICycleNested = workout.nested;
         while (cycle) {
             if (!workout_nested.base_stage) workout_nested.base_stage = cycle.base_stage;
             if (!workout_nested.stage_periods) workout_nested.stage_periods = cycle.stage_periods;
-            if (!workout_nested.stages) workout_nested.stages = cycle.stages;
             if (!workout_nested.transform) workout_nested.transform = cycle.transform; else {
                 if (!workout_nested.transform.relativity) workout_nested.transform.relativity = cycle.transform.relativity;
                 if (!workout_nested.transform.type) workout_nested.transform.type = cycle.transform.type;
