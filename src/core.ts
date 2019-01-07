@@ -15,13 +15,15 @@ export interface IInput {
     workout_set: string;
 }
 
-export interface IWorkoutDayTask {
-    date: Date;
-    weights: IDictionary<number>;
-}
+// export interface IWorkoutDayTask {
+//     date: Date;
+//     weights: IDictionary<number>;
+// }
+interface IComputeContext {
 
-export function ComputeWorkouts(input: IInput, root: IRoot): Array<IWorkoutDayTask> {
-    let result: Array<IWorkoutDayTask> = [];
+}
+export function ComputeWorkouts(input: IInput, root: IRoot): IDictionary<IDictionary<number>> {
+    let result: IDictionary<IDictionary<number>> = {};
     let wo_dic: IDictionary<IWorkout> = root.workouts[input.workout_set];
     for (let wo_name in wo_dic) {
         let wo: IWorkout = wo_dic[wo_name];
@@ -29,9 +31,6 @@ export function ComputeWorkouts(input: IInput, root: IRoot): Array<IWorkoutDayTa
         let funcMain: MainTransformRoutine = CreateMainTransformRoutine(wo.transform);
         let funcsNested: Array<NestedTransformRoutine> = CreateTransformRoutineArray(wo.nested);
         let currentDate: Date = input.date_begin;
-        if (wo.begin_cycle_level > 0) {
-
-        }
         for (let i = 0; i < wo.stages; i++) {
             for (let w_exe in wo.exercises) {
                 //result.push({});
@@ -40,23 +39,13 @@ export function ComputeWorkouts(input: IInput, root: IRoot): Array<IWorkoutDayTa
     }
     return result;
 }
-function AssignNestedCycles(date: Date, prev_weight: number, next_weight: number, level: number, cycle:ICycleNested,
-    exercises: IDictionary<number>, funcs: Array<NestedTransformRoutine>, result: Array<IWorkoutDayTask>): void {
-    let weights: IDictionary<number> = {};
-    for (let i=0;i<cycle.stages;i++) {
-        for (let exe in exercises) {
-            if (level > funcs.length) throw "Выбранное значение уровня вложеного цикла не корректно!";
-            weights[exe] = funcs[level - 1](0,prev_weight,next_weight);//не 0!!!
-        }
-    }
-    result.push({ date: date, weights: weights });
+function AssignNestedCycles(context: IComputeContext): void {
+
 }
 function NormilizeWorkout(workout: IWorkout, root: IRoot): void {
     if (!workout.cycle) return;
     let cycle: ICycleMain | ICycleNested = root.cycles[workout.cycle];
     if (!cycle) throw "Ссылка на несуществующее в конфигурации имя цикла [" + workout.cycle + "]";
-    if (!workout.begin_cycle_level) workout.begin_cycle_level = 0;
-    if (!workout.start_date_offset) workout.start_date_offset = 0;
     if (!workout.base_stage) workout.base_stage = cycle.base_stage;
     if (!workout.stage_period) workout.stage_period = cycle.stage_period;
     if (!workout.stages) workout.stages = cycle.stages;
@@ -64,6 +53,14 @@ function NormilizeWorkout(workout: IWorkout, root: IRoot): void {
         if (!workout.transform.relativity) workout.transform.relativity = cycle.transform.relativity;
         if (!workout.transform.type) workout.transform.type = cycle.transform.type;
         if (!workout.transform.value) workout.transform.value = cycle.transform.value;
+    }
+    if (!workout.start_cycle_point) workout.start_cycle_point = cycle.start_cycle_point; else {
+        if (!workout.start_cycle_point.days_offset)
+            workout.start_cycle_point.days_offset = cycle.start_cycle_point.days_offset;
+        if (!workout.start_cycle_point.level)
+            workout.start_cycle_point.level = cycle.start_cycle_point.level;
+        if (!workout.start_cycle_point.stage)
+            workout.start_cycle_point.stage = cycle.start_cycle_point.stage;
     }
     if (!workout.nested) workout.nested = cycle.nested; else {
         cycle = cycle.nested;

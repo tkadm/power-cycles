@@ -11,10 +11,15 @@ interface ICycleCommon {
     transform: ITransform,
     nested: ICycleNested
 }
-
+export interface IStartCyclePoint {
+    days_offset: number;
+    level: number;
+    stage: number;
+}
 export interface ICycleMain extends ICycleCommon {
     base_stage: number;
     stage_period: number;
+    start_cycle_point: IStartCyclePoint;
 }
 
 export interface ICycleNested extends ICycleCommon {
@@ -31,7 +36,5 @@ export interface ITransform {
 export interface IWorkout extends ICycleMain {
     exercises: Array<string>;
     cycle: string;
-    begin_cycle_level: number;
-    start_date_offset: 0;
 }
 

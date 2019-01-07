@@ -45,12 +45,14 @@
                 "exercises": [
                     "присед"
                 ],
-                "start_date_offset": 0,
                 "cycle": "classic",
                 "stages": 10,
                 "base_stage": 8,
                 "stage_period": 7,
-                "begin_cycle_level": 1,
+                "start_cycle_point": {
+                    "level": 1,
+                    "stage": 1
+                },
                 "nested": {
                     "stage_periods": [
                         4
