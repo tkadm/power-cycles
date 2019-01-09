@@ -24,7 +24,7 @@ export interface IDictionary<Type> {
 export type MainTransformRoutine = (index: number, base_weight: number) => number;
 export type NestedTransformRoutine = (index: number, prev_weight: number, next_weight: number) => number;
 
-function CreateMainTransformRoutine(transform: ITransform): MainTransformRoutine {
+export function CreateMainTransformRoutine(transform: ITransform): MainTransformRoutine {
     let result: MainTransformRoutine;
     switch (transform.type) {
         case TransformType.linear:
@@ -72,15 +72,30 @@ function CreateNestedTransformRoutine(transform: ITransform, nested_base_stage: 
                     }
                     break;
                 default: throw "Неизвестный TransormType [" + transform.type + "]";
-            }            
+            }
+        default: throw "Неизвестный тип type [" + transform.type + "]";
     }
     return result;
 }
-function CreateTransformRoutineArray(cycle: ICycleNested): Array<NestedTransformRoutine> {
+export function CreateTransformRoutineArray(cycle: ICycleNested): Array<NestedTransformRoutine> {
     let result: Array<NestedTransformRoutine> = [];
     while (cycle) {
         result.push(CreateNestedTransformRoutine(cycle.transform, cycle.base_stage));
         cycle = cycle.nested;
     }
     return result;
+}
+
+export function InitObject(source: any, destination: any) {
+    for (let prop of Object.keys(source)) {
+        let type: string = typeof destination[prop];
+        if (type !== "undefined") {
+            if (type === "object") {
+                InitObject(source[prop], destination[prop]);
+            } else {
+                if (typeof source[prop] === type)
+                    destination[prop] = source[prop];
+            }
+        }
+    }
 }

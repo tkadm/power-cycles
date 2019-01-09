@@ -1,4 +1,4 @@
-import { IDictionary, TransformRelativity, TransformType, NestedCycleBaseStage } from "./core"
+import { IDictionary, TransformRelativity, TransformType, NestedCycleBaseStage } from "./utils"
 
 export interface IRoot {
     exercises: IDictionary<string>;
