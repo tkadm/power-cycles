@@ -27,7 +27,7 @@ class Workout implements IWorkout {
     nested: ICycleNested;// = new CycleNested();
     compute: MainTransformRoutine;
     Initialize(source: any): void {
-        InitObject(source, this);
+        InitObject(source, this, ["nested"]);
         this.compute = CreateMainTransformRoutine(this.transform);
         let nested: ICycleNested = this.nested;
         while (nested !== null) {

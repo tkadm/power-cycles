@@ -32,3 +32,8 @@ let source: object = { sd: "sanny", second: 5, subset: { id: "odar" } };
 let val: any = new Second();
 
 
+let array: Array<string> = ["one", "alpha", "aleph"];
+
+let res: any = array.filter(value => value === "aleph");
+console.log(res);
+

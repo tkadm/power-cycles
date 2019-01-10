@@ -86,12 +86,12 @@ export function CreateTransformRoutineArray(cycle: ICycleNested): Array<NestedTr
     return result;
 }
 
-export function InitObject(source: any, destination: any) {
+export function InitObject(source: any, destination: any, skip: Array<string>) {
     for (let prop of Object.keys(source)) {
         let type: string = typeof destination[prop];
         if (type !== "undefined") {
             if (type === "object") {
-                InitObject(source[prop], destination[prop]);
+                InitObject(source[prop], destination[prop], skip);
             } else {
                 if (typeof source[prop] === type)
                     destination[prop] = source[prop];
