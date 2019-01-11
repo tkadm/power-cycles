@@ -5,9 +5,9 @@ import { DateTrunc, DateCopy, InitObject } from "./utils";
 // let config: IRoot = JSON.parse(content);
 
 
-// let val: Date = new Date;
-// let str = val.toLocaleDateString();
-
+let val: Date = new Date;
+let str = val.toLocaleDateString();
+console.log(str);
 // val = DateTrunc(val);
 // console.log(val);
 // let wal = DateCopy(val, 5);
@@ -16,24 +16,6 @@ import { DateTrunc, DateCopy, InitObject } from "./utils";
 // res = res / (24 * 60 * 60 * 1000);
 // console.log(res);
 
-class Nested {
-    id: number = 20;
-}
-class First {
-    first: string = "first string";
-}
-class Second extends First {
-    second: number = 4;
-    subset: Nested = new Nested();
-}
-
-let source: object = { sd: "sanny", second: 5, subset: { id: "odar" } };
-
-let val: any = new Second();
 
 
-let array: Array<string> = ["one", "alpha", "aleph"];
-
-let res: any = array.filter(value => value === "aleph");
-console.log(res);
 

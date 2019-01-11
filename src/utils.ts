@@ -42,7 +42,7 @@ export function CreateMainTransformRoutine(transform: ITransform): MainTransform
     }
     return result;
 }
-function CreateNestedTransformRoutine(transform: ITransform, nested_base_stage: NestedCycleBaseStage): NestedTransformRoutine {
+export function CreateNestedTransformRoutine(transform: ITransform, nested_base_stage: NestedCycleBaseStage): NestedTransformRoutine {
     let result: NestedTransformRoutine;
     switch (transform.type) {
         case TransformType.linear:
@@ -87,7 +87,7 @@ export function CreateTransformRoutineArray(cycle: ICycleNested): Array<NestedTr
 }
 
 export function InitObject(source: any, destination: any, skip: Array<string>) {
-    for (let prop of Object.keys(source)) {
+    for (let prop of Object.keys(source).filter(item => skip.indexOf(item) === -1)) {
         let type: string = typeof destination[prop];
         if (type !== "undefined") {
             if (type === "object") {

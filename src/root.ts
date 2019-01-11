@@ -6,7 +6,7 @@ export interface IRoot {
     workouts: IDictionary<IDictionary<IWorkout>>;
 }
 
-interface ICycleCommon {
+export interface ICycleCommon {
     transform: ITransform,
     nested: ICycleNested
 }

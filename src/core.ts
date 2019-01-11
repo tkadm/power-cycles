@@ -1,7 +1,8 @@
-import { IRoot, IWorkout, ICycleMain, ICycleNested, ITransform, IStartCyclePoint } from "./root";
+import { IRoot, IWorkout, ICycleMain, ICycleNested, ICycleCommon, ITransform, IStartCyclePoint } from "./root";
 import {
     DateCopy, DateTrunc, DaysBetween, IDictionary, NestedCycleBaseStage,
-    TransformType, TransformRelativity, InitObject, MainTransformRoutine, NestedTransformRoutine, CreateMainTransformRoutine
+    TransformType, TransformRelativity, InitObject, MainTransformRoutine, NestedTransformRoutine,
+    CreateMainTransformRoutine, CreateNestedTransformRoutine
 } from "./utils";
 class CycleNested implements ICycleNested {
     stage_periods: number[] = [3];
@@ -24,18 +25,24 @@ class Workout implements IWorkout {
         type: TransformType.linear,
         relativity: TransformRelativity.absolute, value: 2.5
     };
-    nested: ICycleNested;// = new CycleNested();
+    nested: ICycleNested;
     compute: MainTransformRoutine;
     Initialize(source: any): void {
         InitObject(source, this, ["nested"]);
         this.compute = CreateMainTransformRoutine(this.transform);
-        let nested: ICycleNested = this.nested;
-        while (nested !== null) {
-
+        let nested_init: ICycleNested = source.nested;
+        let nested_owner: ICycleCommon = this;
+        while (nested_init) {
+            nested_owner.nested = new CycleNested();
+            InitObject(nested_init, nested_owner.nested, ["nested"]);
+            nested_init = nested_init.nested;
+            nested_owner = nested_owner.nested;
+            (nested_owner as CycleNested).compute = CreateNestedTransformRoutine(nested_owner.transform, (nested_owner as ICycleNested).base_stage);
         }
     }
 }
 
 export function ComputeWorkout(workout: IWorkout, weights: IDictionary<number>): void {
+    let result: IDictionary<IDictionary<number>> = {};
 
 }
