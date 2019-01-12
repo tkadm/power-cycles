@@ -67,10 +67,11 @@ export function ComputeWorkout(root: IRoot, workout_name: string, weights: IDict
         w_training.Initialize(w_training_data);
         let w_cycle_point: IStartCyclePoint = w_training.start_cycle_point;
 
-        //for (let i = w_training.; i < 3; i++) { }
-        for (let exercise of w_training.exercises) {
-            let w_weight = weights[exercise];
+        for (let i: number = -w_training.base_stage; i <= w_training.stages; i++) {
+            for (let exercise of w_training.exercises) {
+                let w_weight = weights[exercise];
 
+            }
         }
     }
 }
