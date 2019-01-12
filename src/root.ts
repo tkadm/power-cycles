@@ -3,7 +3,7 @@ import { IDictionary, TransformRelativity, TransformType, NestedCycleBaseStage }
 export interface IRoot {
     exercises: IDictionary<string>;
     cycles: IDictionary<ICycleMain>;
-    workouts: IDictionary<IDictionary<IWorkout>>;
+    workouts: IDictionary<IDictionary<ITraining>>;
 }
 
 export interface ICycleCommon {
@@ -33,7 +33,8 @@ export interface ITransform {
     value: number;
 }
 
-export interface IWorkout extends ICycleMain {
+//Составной элемент Workout
+export interface ITraining extends ICycleMain {
     exercises: Array<string>;
     cycle: string;
 }

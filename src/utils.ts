@@ -1,4 +1,4 @@
-import { ICycleNested, ITransform, IWorkout, ICycleMain } from "./root"
+import { ICycleNested, ITransform, ITraining, ICycleMain } from "./root"
 
 export function DateCopy(source: Date, offset_days: number): Date {
     let result: Date = new Date(source.valueOf());
@@ -20,6 +20,9 @@ export enum TransformRelativity { absolute = "absolute", procent = "procent" };
 export enum NestedCycleBaseStage { prev = "prev", next = "next" }
 export interface IDictionary<Type> {
     [index: string]: Type;
+}
+export interface INumericDictionary<Type> {
+    [index: number]: Type;
 }
 export type MainTransformRoutine = (index: number, base_weight: number) => number;
 export type NestedTransformRoutine = (index: number, prev_weight: number, next_weight: number) => number;
@@ -100,14 +103,14 @@ export namespace initialization {
         }
     }
 
-    export function assign_missing_data(workout: any, source: any): void {
+    export function assign_missing_data(training: any, source: any): void {
         for (let prop of Object.keys(source)) {
-            let type: string = typeof workout[prop];
+            let type: string = typeof training[prop];
             if (type === "undefined") {
-                workout[prop] = source[prop];
+                training[prop] = source[prop];
             } else
                 if (type === "object" && typeof source[prop] === "object") {
-                    assign_missing_data(workout[prop], source[prop]);
+                    assign_missing_data(training[prop], source[prop]);
                 } //else throw "Не совпадают типы свойства \"" + prop + "\"";
         }
     }

@@ -37,8 +37,7 @@
                 "cycle": "classic",
                 "stages": 10,
                 "base_stage": 8,
-                "stage_period": 7,
-                "begin_cycle_level": 0
+                "stage_period": 7
             },
             "B": {
                 "exercises": [
