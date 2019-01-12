@@ -1,4 +1,4 @@
-import { ICycleNested, ITransform } from "./root"
+import { ICycleNested, ITransform, IWorkout, ICycleMain } from "./root"
 
 export function DateCopy(source: Date, offset_days: number): Date {
     let result: Date = new Date(source.valueOf());
@@ -85,17 +85,30 @@ export function CreateTransformRoutineArray(cycle: ICycleNested): Array<NestedTr
     }
     return result;
 }
-
-export function InitObject(source: any, destination: any, skip: Array<string>) {
-    for (let prop of Object.keys(source).filter(item => skip.indexOf(item) === -1)) {
-        let type: string = typeof destination[prop];
-        if (type !== "undefined") {
-            if (type === "object") {
-                InitObject(source[prop], destination[prop], skip);
-            } else {
-                if (typeof source[prop] === type)
-                    destination[prop] = source[prop];
+export namespace initialization {
+    export function InitObject(source: any, destination: any, skip: Array<string>) {
+        for (let prop of Object.keys(source).filter(item => skip.indexOf(item) === -1)) {
+            let type: string = typeof destination[prop];
+            if (type !== "undefined") {
+                if (type === "object") {
+                    InitObject(source[prop], destination[prop], skip);
+                } else {
+                    if (typeof source[prop] === type)
+                        destination[prop] = source[prop];
+                }
             }
+        }
+    }
+
+    export function assign_missing_data(workout: any, source: any): void {
+        for (let prop of Object.keys(source)) {
+            let type: string = typeof workout[prop];
+            if (type === "undefined") {
+                workout[prop] = source[prop];
+            } else
+                if (type === "object" && typeof source[prop] === "object") {
+                    assign_missing_data(workout[prop], source[prop]);
+                } //else throw "Не совпадают типы свойства \"" + prop + "\"";
         }
     }
 }
