@@ -23,7 +23,12 @@ class CycleNested implements ICycleNested {
         relativity: TransformRelativity.procent, value: 80
     };
     nested: ICycleNested;
-    compute: NestedTransformRoutine;
+    compute_proc: NestedTransformRoutine;
+    calculate(level: number, prev_weight: number, next_weight: number) {
+        for (let i: number = 1; i <= this.stage_periods.length; i++) {
+            this.compute_proc(i, prev_weight, next_weight);
+        }
+    }
 }
 class Training implements ITraining {
     private initData(): void {
@@ -40,10 +45,10 @@ class Training implements ITraining {
         relativity: TransformRelativity.absolute, value: 2.5
     };
     nested: ICycleNested;
-    compute: MainTransformRoutine;
+    compute_proc: MainTransformRoutine;
     Initialize(source: any): void {
         initialization.InitObject(source, this, ["nested"]);
-        this.compute = CreateMainTransformRoutine(this.transform);
+        this.compute_proc = CreateMainTransformRoutine(this.transform);
         let nested_init: ICycleNested = source.nested;
         let nested_owner: ICycleCommon = this;
         while (nested_init) {
@@ -51,7 +56,7 @@ class Training implements ITraining {
             initialization.InitObject(nested_init, nested_owner.nested, ["nested"]);
             nested_init = nested_init.nested;
             nested_owner = nested_owner.nested;
-            (nested_owner as CycleNested).compute =
+            (nested_owner as CycleNested).compute_proc =
                 CreateNestedTransformRoutine(nested_owner.transform,
                     (nested_owner as ICycleNested).base_stage);
         }
@@ -67,7 +72,7 @@ export function ComputeWorkout(root: IRoot, workout_name: string, weights: IDict
         w_training.Initialize(w_training_data);
         let w_cycle_point: IStartCyclePoint = w_training.start_cycle_point;
 
-        for (let i: number = -w_training.base_stage; i <= w_training.stages; i++) {
+        for (let i: number = -w_training.base_stage; i <= w_training.stages - w_training.base_stage; i++) {
             for (let exercise of w_training.exercises) {
                 let w_weight = weights[exercise];
 
