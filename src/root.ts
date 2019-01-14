@@ -10,16 +10,19 @@ export interface ICycleCommon {
     transform: ITransform,
     nested: ICycleNested
 }
-export interface IStartCyclePoint {
-    days_offset: number;
+export interface IEndCyclePoint {
     level: number;
     stage: number;
+}
+export interface IStartCyclePoint extends IEndCyclePoint {
+    days_offset: number;
 }
 export interface ICycleMain extends ICycleCommon {
     stages: number,
     base_stage: number;
     stage_period: number;
     start_cycle_point: IStartCyclePoint;
+    end_cycle_point: IEndCyclePoint;
 }
 
 export interface ICycleNested extends ICycleCommon {
