@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo"
+    "build": "tsc"
   },
   "keywords": [
     "Excel"
@@ -12,8 +12,12 @@
   "author": "tkadm",
   "license": "ISC",
   "dependencies": {
+    "@types/node": "^13.7.0",
     "excel4node": "^1.7.0",
+    "msexcel-builder": "0.0.2",
     "rxjs": "^6.3.3"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "typescript": "^3.7.5"
+  }
 }
